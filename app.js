@@ -103,6 +103,35 @@ function menu() {
         })
     }
     //Build add intern function
+    function addIntern() {
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "What the intern's name?",
+                name: "internName"
+            },
+            {
+                type: "input",
+                message: "What is the intern's ID?",
+                name: "internID"
+            },
+            {
+                type: "input",
+                message: "what is the intern's email?",
+                name: "internEmail"
+            },
+            {
+                type: "input",
+                message: "what is the intern's school name?",
+                name: "internSchool"
+            }
+        ]).then(internRes => {
+            const intern = new intern(internRes.internName, internRes.internID, internRes.internEmail, internRes.internSchool);
+            teamMembers.push(intern);
+            teamID.push(internRes.internID);
+            createTeam();
+        });
+    }
     function buildTeam() {
         if(!fs.existsSync(OUTPUT_DIR)) {
             fs.mkdirSync(OUTPUT_DIR);
