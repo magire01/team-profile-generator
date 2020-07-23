@@ -10,6 +10,80 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const teamMembers = [];
+const teamID = [];
+
+
+function menu() {
+    function createManager() {
+        console.log("Please build your team: ");
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "What is the manager's name?",
+                name: "managerName",
+                validate: (answer) => {
+                    if (answer !== "") {
+                        return true;
+                    }
+                return "Please enter the manager's name!!";
+                }
+            }, 
+            {
+                type: "input",
+                message: "What is the manager's ID?",
+                name: "managerID"
+            },
+            {
+                type: "input",
+                message: "What is the manager's email?",
+                name: "managerEmail"
+            },
+            {
+                type: "input",
+                message: "What is the manager's office number?",
+                name: "managerOffice"
+            }
+        ]).then(responses => {
+            const manager = new Manager (responses.managerName, responses.managerID, responses.managerEmail, responses.managerOffice);
+            teamMembers.push(manager);
+            teamID.push(reponses.managerID);
+            createTeam();
+        })
+    }
+    function createTeam() {
+        inquirer.prompt([
+            {
+                type: "list",
+                message: "Which type of team member would you like to add?",
+                choices: ["Engineer", "Intern", "None"];
+                name: "teamType"
+            }
+        ]).then(teamRes => {
+            switch(teamRes.teamType) {
+                case "Engineer":
+                    addEngineer();
+                    break;
+                case "Intern":
+                    addIntern();
+                    break;
+                default:
+                    buildTeam();
+            }
+        })
+    }
+    //Build add engineer function
+    //Build add intern function
+    function buildTeam() {
+        if(!fs.existsSync(OUTPUT_DIR)) {
+            fs.mkdirSync(OUTPUT_DIR);
+        }
+        fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+    }
+    createManager();
+}
+
+menu();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
