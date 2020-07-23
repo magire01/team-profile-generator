@@ -73,6 +73,35 @@ function menu() {
         })
     }
     //Build add engineer function
+    function addEngineer() {
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "What the Engineer's name?",
+                name: "engineerName"
+            },
+            {
+                type: "input",
+                message: "What is the Engineer's ID?",
+                name: "engineerID"
+            },
+            {
+                type: "input",
+                message: "what is the Engineer's email?",
+                name: "engineerEmail"
+            },
+            {
+                type: "input",
+                message: "what is the Engineer's Github profile link",
+                name: "engineerLink"
+            }
+        ]).then(engineerRes => {
+            const engineer = new Engineer(engineerRes.engineerName, engineerRes.engineerID, engineerRes.engineerEmail, engineerRes.engineerLink);
+            teamMembers.push(engineer);
+            teamID.push(engineerRes.engineerID);
+            createTeam();
+        })
+    }
     //Build add intern function
     function buildTeam() {
         if(!fs.existsSync(OUTPUT_DIR)) {
