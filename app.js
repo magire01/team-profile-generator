@@ -32,7 +32,14 @@ function menu() {
             {
                 type: "input",
                 message: "What is the manager's ID?",
-                name: "managerID"
+                name: "managerID",
+                validate: answer => {
+                    const pass = answer.match(/^[1-9]\d*$/)
+                    if(pass) {
+                        return true;
+                    }
+                    return "Please enter a number!";
+                }
             },
             {
                 type: "input",
@@ -42,12 +49,19 @@ function menu() {
             {
                 type: "input",
                 message: "What is the manager's office number?",
-                name: "managerOffice"
+                name: "managerOffice",
+                validate: answer => {
+                    const pass = answer.match(/^[1-9]\d*$/)
+                    if(pass) {
+                        return true;
+                    }
+                    return "Please enter a number!";
+                }
             }
         ]).then(responses => {
             const manager = new Manager (responses.managerName, responses.managerID, responses.managerEmail, responses.managerOffice);
             teamMembers.push(manager);
-            teamID.push(reponses.managerID);
+            teamID.push(responses.managerID);
             createTeam();
         })
     }
@@ -56,7 +70,7 @@ function menu() {
             {
                 type: "list",
                 message: "Which type of team member would you like to add?",
-                choices: ["Engineer", "Intern", "None"];
+                choices: ["Engineer", "Intern", "None"],
                 name: "teamType"
             }
         ]).then(teamRes => {
@@ -78,12 +92,25 @@ function menu() {
             {
                 type: "input",
                 message: "What the Engineer's name?",
-                name: "engineerName"
+                name: "engineerName",
+                validate: (answer) => {
+                    if (answer !== "") {
+                        return true;
+                    }
+                return "Please enter the engineer's name!!";
+                }
             },
             {
                 type: "input",
                 message: "What is the Engineer's ID?",
-                name: "engineerID"
+                name: "engineerID",
+                validate: answer => {
+                    const pass = answer.match(/^[1-9]\d*$/)
+                    if(pass) {
+                        return true;
+                    }
+                    return "Please enter a number!";
+                }
             },
             {
                 type: "input",
@@ -93,7 +120,7 @@ function menu() {
             {
                 type: "input",
                 message: "what is the Engineer's Github profile link",
-                name: "engineerLink"
+                name: "engineerLink",
             }
         ]).then(engineerRes => {
             const engineer = new Engineer(engineerRes.engineerName, engineerRes.engineerID, engineerRes.engineerEmail, engineerRes.engineerLink);
@@ -113,7 +140,14 @@ function menu() {
             {
                 type: "input",
                 message: "What is the intern's ID?",
-                name: "internID"
+                name: "internID",
+                validate: answer => {
+                    const pass = answer.match(/^[1-9]\d*$/);
+                    if(pass) {
+                        return true;
+                    }
+                    return "Please enter a number!";
+                }
             },
             {
                 type: "input",
@@ -123,10 +157,16 @@ function menu() {
             {
                 type: "input",
                 message: "what is the intern's school name?",
-                name: "internSchool"
+                name: "internSchool",
+                validate: (answer) => {
+                    if (answer !== "") {
+                        return true;
+                    }
+                return "Please enter the engineer's name!!";
+                }
             }
         ]).then(internRes => {
-            const intern = new intern(internRes.internName, internRes.internID, internRes.internEmail, internRes.internSchool);
+            const intern = new Intern(internRes.internName, internRes.internID, internRes.internEmail, internRes.internSchool);
             teamMembers.push(intern);
             teamID.push(internRes.internID);
             createTeam();
